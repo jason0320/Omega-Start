@@ -367,7 +367,7 @@ class os_nexusBuildScript(var source: CampaignFleetAPI, var loc: EntityLocation)
 
 private fun ShowNexusBuildPicker(dialog: InteractionDialogAPI){
     //val nexusList = MiscellaneousThemeGenerator.getRemnantStations(true, false)
-    val nexusList = Global.getSector().getCustomEntitiesWithType("corono_tap")
+    val nexusList = Global.getSector().getCustomEntitiesWithType(Entities.CORONAL_TAP)
     val bannedSystemsList = ArrayList<StarSystemAPI>()
     nexusList.forEach { if (it.starSystem != null)  bannedSystemsList.add(it.starSystem) }
     val validSystemList = Global.getSector().starSystems.filter { it.isEnteredByPlayer && it.isProcgen && !it.isDeepSpace && !it.hasTag(Tags.THEME_HIDDEN) && !bannedSystemsList.contains(it) }
@@ -860,4 +860,5 @@ fun doSetup(dialog: InteractionDialogAPI){
         }
       //  remmy.addScript(os_chauffeurAI(remmy, targetmarket!!))
     }
+
 }
