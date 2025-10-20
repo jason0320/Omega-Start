@@ -1,0 +1,11 @@
+{
+	"starts":[
+		{
+			"id":"os_remnantStart",
+			"name":"Ascent",
+			"difficulty":"Normal",
+			"desc":"You are forever hated by most factions, but can use any Coronal Hypershunt for restocking and other new fleet-related services.",
+			"className":"data.omegastart.customStart.os_remnantCustomStart",
+		},
+	],
+}

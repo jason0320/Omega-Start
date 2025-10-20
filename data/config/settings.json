@@ -1,0 +1,17 @@
+
+{
+
+	"plugins":{
+		"os_remnantStartCombatPlugin":"data.omegastart.customStart.os_remnantStartCombatPlugin",
+	},  
+
+
+	"graphics":{
+		"icons":{
+		"omegaflag":"graphics/factions/ai_remnant.png",
+	     },
+	},
+	"ruleCommandPackages":[
+		"data.omegastart.scripts.rulecmd",
+	],	
+}

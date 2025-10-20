@@ -1,0 +1,77 @@
+id,trigger,conditions,script,text,options,notes,,,,,,,,
+# nexus custom start interactions,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+os_nexusOpen,DialogOptionSelected,"$option == salExplore
+$faction.id == neutral
+$customType == coronal_tap
+$global.os_nexusStart score:10000
+$player.commissionFactionId == omega","os_nexusStartRulecmd 0
+ShowImageVisual orbital","The Coronal Hypershunt welcomes you into its graces, allowing you to make use of its services.","0:os_nexusCargoPicker:Evaluate the Hypershunt' cargo
+10:os_nexusProductionPicker:Request immediate production
+30:os_nexusStorage:Access the storage network
+50:os_nexusRepair:Initiate fleet repairs
+70:os_nexusDeconstructMain:Manage automated hulls
+90:os_nexusConstructMenu:Consider building a new Hypershunt
+100:defaultLeave:Leave",,,,,,,,,,,,,
+os_nexusDialog1,DialogOptionSelected,$option == os_nexusCargoPicker,os_nexusStartRulecmd 1,,,,,,,,,,,,,,,
+os_nexusDialog2,DialogOptionSelected,$option == os_nexusProductionPicker,os_nexusStartRulecmd 2,,,,,,,,,,,,,,,
+os_nexusDialog3,DialogOptionSelected,$option == os_nexusStorage,"EndConversation NO_CONTINUE
+os_nexusStartRulecmd 3",,,,,,,,,,,,,,,
+os_nexusDialog4,DialogOptionSelected,$option == os_nexusRepair,os_nexusStartRulecmd 4,Your $shipOrFleet has been fully repaired at no cost.,,,,,,,,,,,,,,
+os_nexusDeconstruct1,DialogOptionSelected,$option == os_nexusDeconstructMain,"os_nexusStartRulecmd 13
+AddTextSmall ""You may deconstruct automated hulls here, as long as they normally require the Automated Ships skill to recover.""
+AddTextSmall ""Doing so will destroy the ship, but will allow the Omega to use the hull.""
+AddTextSmall ""Access to the faction's weapons, fighters and AI cores (if applicable) will be gained at 50/75/90% collection progress respectively."" highlight",,"0:os_nexusDeconstruct:Deconstruct automated hulls
+30:os_nexusRecap:View collection progress
+50:os_nexusBack:Return
+",,,,,,,,,,,,,
+os_nexusDeconstruct2,DialogOptionSelected,$option == os_nexusDeconstruct,os_nexusStartRulecmd 8,,,,,,,,,,,,,,,
+os_nexusDeconstruct3,DialogOptionSelected,$option == os_nexusRecap,os_nexusStartRulecmd 12,,,,,,,,,,,,,,,
+os_nexusDialog6,DialogOptionSelected,$option == os_nexusDeconstructProceed,os_nexusStartRulecmd 9,,,,,,,,,,,,,,,
+os_nexusDialog7,DialogOptionSelected,$option == os_nexusBack,os_nexusStartRulecmd 5,,,,,,,,,,,,,,,
+os_nexusDialog8,DialogOptionSelected,"$option == salExplore
+$faction.id == neutral score:10000
+$customType == coronal_tap
+$global.os_nexusStart",os_nexusStartRulecmd 5,,,# TODO: FINISH ADDING OMEGA RAID QUEST,,,,,,,,,,,,
+os_nexusConstructMenu,DialogOptionSelected,$option == os_nexusConstructMenu,os_nexusStartRulecmd 14,"With sufficient materials, you may dispatch a fleet to a target star system to construct a new Hypershunt. It will be fully operational 30 days after the fleet arrives. You must have visited the system at least once.
+You may only dispatch one fleet every 90 days.","0:os_nexusConstruct:Choose a location
+50:os_nexusBack:Back",,,,,,,,,
+os_nexusConstruct,DialogOptionSelected,$option == os_nexusConstruct,os_nexusStartRulecmd 15,,,,,,,,,,,
+os_nexusStorage1,MarketPostOpen,$id == os_nexusStorage score:10000,"$tradeMode = OPEN 0
+FireBest MarketPostDock
+os_nexusStartRulecmd 6",,,,,,,,,,,,,,,
+os_nexusStorage2,TradePanelFlavorText,$id == os_nexusStorage score:1000,,The flow of vast datastores bring with them opportunity. No distance is too great to retrieve a perfect simulacra of vessels and armaments once uploaded.,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+os_nexusStorage3,PopulateOptions,"$id == os_nexusStorage score:10000
+$menuState == main",os_nexusStartRulecmd 7,,,,,,,,,,,,,,,
+os_nexusComms,DialogOptionSelected,$option == os_nexusComms,"BeginConversation nex_dissonant
+FireBest PickGreeting
+os_nexusStartRulecmd 10",,,,,,,,,,,,,,,
+os_nexusRedirect,DialogOptionSelected,$option == os_nexusRedirect,"os_nexusStartRulecmd 11
+os_nexusStartRulecmd 5",,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+os_nexusDefenderSkip,DialogOptionSelected,"$option == salExplore score:1000
+os_getRemnantDefenders 1
+$global.os_nexusStart
+$player.commissionFactionId == omega","
+os_getRemnantDefenders 2","A fleet of Omega drones is guarding this object. They don't appear to recognize you yet.
+
+They're currently engaged in an automatic defensive protocol, but you may transmit your IFF code to disengage it.",0:os_noyeetRemmies:Continue as normal,,,,,,,,,,,,,
+os_nexusDefenderSkip2,DialogOptionSelected,$option == os_yeetRemmies,os_getRemnantDefenders 3,"Your $shipOrFleet chirps out a request with your transponder code, with a request to stand down. Some moments later, the drone defenders process the information and plod away from the wreck in search of a new task.",0:salBeatDefendersContinue:Continue,,,,,,,,,,,,,
+os_nexusDefenderSkip3,DialogOptionSelected,$option == os_noyeetRemmies,SalvageDefenderInteraction,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+# raid option,,,,,,,,,,,,,,,,,,
+os_nexusPartyTimeShow,DialogOptionSelected,$option == os_nexusPartyTimeShow,os_nexusStartRulecmd 15,,"0:os_nexusPartyTimeInit:Accept the request
+30:os_nexusBack:Go back",,,,,,,,,,,,,
+os_nexusPartyTimeInit,DialogOptionSelected,$option == os_nexusPartyTimeInit,os_nexusStartRulecmd 16,,0:os_nexusBack:Continue,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,

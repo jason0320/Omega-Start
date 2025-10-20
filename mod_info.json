@@ -1,0 +1,20 @@
+{
+  	"id":"zz omegastart",
+	"name":"zz Omega Start",
+	"author":"gamer",	
+	"version":"0.1",
+	"description":"Add Omega Start",
+	"gameVersion":"0.98a-RC8",
+	"jars":["jars/omegastart.jar"],
+	"modPlugin":"data.omegastart.plugins.OS_modPlugin",
+	 "dependencies": [
+		{
+			"id": "MagicLib",
+			"name": "Magiclib",
+		},
+		{
+			"id": "shaderLib",
+			"name": "Graphicslib",
+		},
+		],
+}
