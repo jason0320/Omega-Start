@@ -1,3 +1,6 @@
+v0.6 (2025/10/21)
+- Fix Random Sector crash
+
 v0.5 (2025/10/21)
 - Fix not starting at the right entity if there are duplicated location id
 
