@@ -95,9 +95,9 @@ class os_nexusStartRulecmd: BaseCommandPlugin() { // stuff to handle nexus inter
             dialog.textPanel.setFontVictor()
             dialog.textPanel.addPara("affirm // detected : Omega property transponder from [target_fleet] // waiting waiting waiting...")
             if (Global.getSector().playerFleet.fleetPoints > 300){ // you're a big guy.
-                dialog.textPanel.addPara("receipt of FLEET no. 417 confirmed. \"Welcome back, esteemed user!\"")
+                dialog.textPanel.addPara("receipt of Incursion no. 417 confirmed. \"Welcome back, esteemed user!\"")
             } else {
-                dialog.textPanel.addPara("receipt of SCOUT no. 417 confirmed. \"Welcome back, esteemed user!\"")
+                dialog.textPanel.addPara("receipt of Apparition no. 417 confirmed. \"Welcome back, esteemed user!\"")
 
             }
             Global.getSector().playerFleet.fleetData.membersListCopy.forEach {
@@ -110,7 +110,7 @@ class os_nexusStartRulecmd: BaseCommandPlugin() { // stuff to handle nexus inter
             dialog.textPanel.addPara("CASE produce [replicate] implements // verification required")
             dialog.textPanel.addPara("CASE refit [test/analyze/rearm] offered for [target_fleet] //")
             dialog.textPanel.addPara("CASE leave [cutCommLink] // \"We wish you a very nice day.\"")
-            //dialog.textPanel.addPara("CASE repair [restore] expeditiously available")
+            dialog.textPanel.addPara("CASE repair [restore] expeditiously available")
             dialog.textPanel.setFontInsignia()
             dialog.optionPanel.addOption("Evaluate available cargo", "os_nexusCargoPicker")
             dialog.optionPanel.setTooltip("os_nexusCargoPicker", "Open a dialog to purchase supplies, AI cores, and occasionally other rare items. Every Hypershunt has its own stock.")
@@ -124,9 +124,12 @@ class os_nexusStartRulecmd: BaseCommandPlugin() { // stuff to handle nexus inter
             dialog.optionPanel.setTooltip("os_nexusDeconstruct", "Destroy an automated hull to add it to the Omega' known hulls.")
             dialog.optionPanel.addOption("Consider building a new Hypershunt", "os_nexusConstructMenu")
             dialog.optionPanel.setTooltip("os_nexusConstructMenu", "Construct a new Hypershunt")
-           // if (!Global.getSector().intelManager.hasIntelOfClass(os_nexusRaidIntel::class.java) && !Global.getSector().memoryWithoutUpdate.getBoolean("\$os_nexusPartyTimeout")){
-          //      dialog.optionPanel.addOption("Raid requests", "os_nexusPartyTimeShow")
-          //  } just fix it later.
+            if (!Global.getSector().intelManager.hasIntelOfClass(os_nexusRaidIntel::class.java) && !Global.getSector().memoryWithoutUpdate.getBoolean("\$os_nexusPartyTimeout")){
+                dialog.optionPanel.addOption("Raid requests", "os_nexusPartyTimeShow")
+            }
+            if (Global.getSector().intelManager.hasIntelOfClass(os_nexusRaidIntel::class.java) && Global.getSector().memoryWithoutUpdate.getInt("\$os_nexusParty")==1){
+                dialog.optionPanel.addOption("Raid rewards", "os_nexusPartyTimeReward")
+            }
             dialog.optionPanel.addOption("Leave", "defaultLeave")
             dialog.optionPanel.setShortcut("os_nexusRepair", Keyboard.KEY_A, false, false,false , false)
             //dialog.visualPanel.showPersonInfo(dialog.interactionTarget.activePerson)
@@ -274,10 +277,16 @@ class os_nexusStartRulecmd: BaseCommandPlugin() { // stuff to handle nexus inter
             }
             15 -> {
                 ShowNexusBuildPicker(dialog!!)
-
-
             }
-
+            16 ->{
+                getShowRaidTarget(dialog!!, targetmarket, rewardlist)
+            }
+            17 -> {
+                doSetup(dialog!!)
+            }
+            18 -> {
+                getRaidReward(dialog!!)
+            }
         }
         return true
     }
@@ -801,7 +810,9 @@ fun getShowRaidTarget( dialog: InteractionDialogAPI,  target: MarketAPI?,  rewar
 
     if (target == null){
         spec = Factions.HEGEMONY
-        if (Math.random() > 0.70) spec = Factions.LUDDIC_CHURCH
+        if (Math.random() > 0.50) spec = Factions.PERSEAN
+        if (Math.random() > 0.50) spec = Factions.DIKTAT
+        if (Math.random() > 0.50) spec = Factions.LUDDIC_CHURCH
         isinit = true
         val list = WeightedRandomPicker<MarketAPI>()
         Misc.getFactionMarkets(spec).forEach {
@@ -818,14 +829,16 @@ fun getShowRaidTarget( dialog: InteractionDialogAPI,  target: MarketAPI?,  rewar
     val facname = Global.getSettings().getFactionSpec(spec).displayName
     val faccolor = Global.getSettings().getFactionSpec(spec).baseUIColor
     if (rewards!!.isEmpty()){
-        val defense = targetmarket!!.stats.dynamic.getStat(Stats.GROUND_DEFENSES_MOD).modifiedValue
+        val defense = targetmarket!!.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD).computeEffective(0f)
         rewardlist.add(0, (defense/100f).roundToInt().coerceAtMost(8))
         rewardlist.add(1, (defense/500f).roundToInt().coerceAtMost(4))
         rewardlist.add(2, (defense/1000f).roundToInt().coerceAtMost(2))
+        rewardlist.add(3, (defense*1000f).roundToInt())
     }
     var numgamma = rewardlist[0]
     var numbeta = rewardlist[1]
     var numalpha = rewardlist[2]
+    var numcredits = rewardlist[3]
     dialog.visualPanel.showMapMarker(targetmarket!!.primaryEntity, targetmarket!!.name, faccolor,  false, null, "Competitor Military Operations", null)
     dialog.textPanel.setFontVictor()
     dialog.textPanel.addPara("RECONSTRUCTING MESSAGE - // waiting ... //")
@@ -836,28 +849,75 @@ fun getShowRaidTarget( dialog: InteractionDialogAPI,  target: MarketAPI?,  rewar
     para1.setHighlightColor(faccolor)
     dialog.textPanel.addPara("Please initiate protocol \"heartfelt fireworks celebration\" and visit upon ${targetmarket!!.name} to shower joy breadth skies.").setHighlight(targetmarket!!.name)
     dialog.textPanel.addPara("Butlers will be invited to assist in decoration and management of guests. Forth the apex of annihilation, promptly disperse and recollect within the Hypershunt.")
-    dialog.textPanel.addPara("To be dispensed includes $numgamma chocolate mousse, $numbeta lemon zest, and $numalpha blueberry gummies.").setHighlight(numgamma.toString(), numbeta.toString(), numalpha.toString())
-
+    dialog.textPanel.addPara("To be dispensed includes $numgamma chocolate mousse, $numbeta lemon zest, $numalpha blueberry gummies and $numcredits credits will be given ").setHighlight(numgamma.toString(), numbeta.toString(), numalpha.toString(), numcredits.toString())
     dialog.textPanel.setFontSmallInsignia()
     dialog.textPanel.addPara("Bombard the colony of ${targetmarket!!.name} to disrupt their military operations and return to a Hypershunt to receive your reward. Omega fleets will be dispatched to assist you. Expect resistance.").setHighlight(targetmarket!!.name)
-    dialog.textPanel.addPara("Rewards are $numgamma gamma core, $numbeta beta core and $numalpha alpha core.").setHighlight(numgamma.toString(), numbeta.toString(), numalpha.toString())
+    dialog.textPanel.addPara("Rewards are $numgamma gamma core, $numbeta beta core, $numalpha alpha core and $numcredits credits.").setHighlight(numgamma.toString(), numbeta.toString(), numalpha.toString(), numcredits.toString())
     dialog.textPanel.setFontInsignia()
 
 }
 
-fun doSetup(dialog: InteractionDialogAPI){
+fun doSetup(dialog: InteractionDialogAPI) {
     Global.getSector().intelManager.addIntel(os_nexusRaidIntel(targetmarket!!, rewardlist), false, dialog.textPanel)
     Global.getSector().listenerManager.addListener(os_nexusRaidIntel(targetmarket!!, rewardlist))
     val targfaction = targetmarket!!.factionId
     for (i in 0 until 2) {
-        val remmy = MagicCampaign.createFleetBuilder().setFleetName("Chauffeurs").setFleetFaction(Factions.OMEGA).setAssignmentTarget(Global.getSector().playerFleet).setAssignment(FleetAssignment.ORBIT_PASSIVE).setMinFP(Global.getSector().playerFleet.fleetPoints / 2).setIsImportant(true).setSpawnLocation(Global.getSector().playerFleet.interactionTarget).setTransponderOn(false).setQualityOverride(2f).create()
+        val remmy = MagicCampaign.createFleetBuilder().setFleetName("Chauffeurs").setFleetFaction(Factions.OMEGA)
+            .setAssignmentTarget(Global.getSector().playerFleet).setAssignment(FleetAssignment.ORBIT_PASSIVE)
+            .setMinFP(Global.getSector().playerFleet.fleetPoints / 2).setIsImportant(true)
+            .setSpawnLocation(Global.getSector().playerFleet.interactionTarget).setTransponderOn(false)
+            .setQualityOverride(2f).create()
         remmy.memoryWithoutUpdate.apply {
             set(MemFlags.MEMORY_KEY_MAKE_HOLD_VS_STRONGER, true)
             set(MemFlags.MEMORY_KEY_ALLOW_PLAYER_BATTLE_JOIN_TOFF, true)
             set(MemFlags.DO_NOT_TRY_TO_AVOID_NEARBY_FLEETS, true)
             set(MemFlags.MEMORY_KEY_FLEET_DO_NOT_GET_SIDETRACKED, true)
             set(MemFlags.MEMORY_KEY_FORCE_TRANSPONDER_OFF, true)
+            remmy.removeFirstAssignment()
+            remmy.addAssignment(FleetAssignment.ATTACK_LOCATION, targetmarket!!.primaryEntity, 30f)
+            //remmy.addScript(os_chauffeurAI(remmy, targetmarket!!))
         }
-      //  remmy.addScript(os_chauffeurAI(remmy, targetmarket!!))
+    }
+}
+fun getRaidReward(dialog: InteractionDialogAPI) {
+
+    val intel = Global.getSector().intelManager.getFirstIntel(os_nexusRaidIntel::class.java)
+
+    if (intel is os_nexusRaidIntel) {
+        val rewards = intel.reward
+
+        val numgamma = rewards[0]
+        val numbeta = rewards[1]
+        val numalpha = rewards[2]
+        val numcredits = rewards[3]
+
+        val playerFleet = Global.getSector().playerFleet
+        val cargo = playerFleet.cargo
+
+        cargo.addCommodity(Commodities.GAMMA_CORE, numgamma.toFloat())
+        cargo.addCommodity(Commodities.BETA_CORE, numbeta.toFloat())
+        cargo.addCommodity(Commodities.ALPHA_CORE, numalpha.toFloat())
+        cargo.credits.add(numcredits.toFloat())
+
+        dialog.textPanel.setFontVictor()
+        dialog.textPanel.addPara("RECONSTRUCTING MESSAGE - // waiting ... //")
+        dialog.textPanel.setFontInsignia()
+        dialog.textPanel.addPara("Voluminous greetings, caretaker.")
+        dialog.textPanel.addPara("$numgamma chocolate mousse, $numbeta lemon zest, $numalpha blueberry gummies and $numcredits credits are given ")
+            .setHighlight(numgamma.toString(), numbeta.toString(), numalpha.toString(), numcredits.toString())
+
+        dialog.textPanel.setFontSmallInsignia()
+        dialog.textPanel.addPara("$numgamma gamma core, $numbeta beta core, $numalpha alpha core and $numcredits credits. are rewarded")
+            .setHighlight(numgamma.toString(), numbeta.toString(), numalpha.toString(), numcredits.toString())
+        dialog.textPanel.setFontInsignia()
+
+
+        Global.getSector().listenerManager.removeListenerOfClass(os_nexusRaidIntel::class.java)
+        targetmarket = null
+        rewardlist.clear()
+        Global.getSector().memoryWithoutUpdate.set("\$os_nexusPartyTimeout", true, 180f)
+        Global.getSector().memoryWithoutUpdate.set("\$os_nexusParty", 2)
+
+        Global.getSector().memoryWithoutUpdate.unset("\$os_nexusParty")
     }
 }

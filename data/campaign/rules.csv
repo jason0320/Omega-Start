@@ -12,6 +12,8 @@ ShowImageVisual orbital","The Coronal Hypershunt welcomes you into its graces, a
 50:os_nexusRepair:Initiate fleet repairs
 70:os_nexusDeconstructMain:Manage automated hulls
 90:os_nexusConstructMenu:Consider building a new Hypershunt
+95:os_nexusPartyTimeShow:Raid requests
+96:os_nexusPartyTimeReward:Raid rewards
 100:defaultLeave:Leave",,,,,,,,,,,,,
 os_nexusDialog1,DialogOptionSelected,$option == os_nexusCargoPicker,os_nexusStartRulecmd 1,,,,,,,,,,,,,,,
 os_nexusDialog2,DialogOptionSelected,$option == os_nexusProductionPicker,os_nexusStartRulecmd 2,,,,,,,,,,,,,,,
@@ -61,9 +63,10 @@ os_nexusDefenderSkip2,DialogOptionSelected,$option == os_yeetRemmies,os_getRemna
 os_nexusDefenderSkip3,DialogOptionSelected,$option == os_noyeetRemmies,SalvageDefenderInteraction,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,
 # raid option,,,,,,,,,,,,,,,,,,
-os_nexusPartyTimeShow,DialogOptionSelected,$option == os_nexusPartyTimeShow,os_nexusStartRulecmd 15,,"0:os_nexusPartyTimeInit:Accept the request
+os_nexusPartyTimeShow,DialogOptionSelected,$option == os_nexusPartyTimeShow,os_nexusStartRulecmd 16,,"0:os_nexusPartyTimeInit:Accept the request
 30:os_nexusBack:Go back",,,,,,,,,,,,,
-os_nexusPartyTimeInit,DialogOptionSelected,$option == os_nexusPartyTimeInit,os_nexusStartRulecmd 16,,0:os_nexusBack:Continue,,,,,,,,,,,,,
+os_nexusPartyTimeInit,DialogOptionSelected,$option == os_nexusPartyTimeInit,os_nexusStartRulecmd 17,,0:os_nexusBack:Continue,,,,,,,,,,,,,
+os_nexusPartyTimeReward,DialogOptionSelected,$option == os_nexusPartyTimeReward,os_nexusStartRulecmd 18,,0:os_nexusBack:Continue,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,

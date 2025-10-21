@@ -114,4 +114,8 @@ class os_nexusRaidIntel (var bombmarket: MarketAPI, var reward: ArrayList<Int>):
 
         memory.unset(key)
     }
+
+    fun getRewardList(): ArrayList<Int> {
+        return reward
+    }
 }
