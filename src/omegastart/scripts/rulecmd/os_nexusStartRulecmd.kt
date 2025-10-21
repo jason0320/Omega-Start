@@ -860,5 +860,4 @@ fun doSetup(dialog: InteractionDialogAPI){
         }
       //  remmy.addScript(os_chauffeurAI(remmy, targetmarket!!))
     }
-
 }

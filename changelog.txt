@@ -1,2 +1,14 @@
+v0.5 (2025/10/21)
+- Fix not starting at the right entity if there are duplicated location id
+
+v0.4 (2025/10/21)
+- Add temporary method to be partially immune to corona at Coronal Hypershunt
+
+v0.3 (2025/10/21)
+- Add function to select experience and assets at start
+
+v0.2 (2025/10/20)
+- Typo Fix
+
 v0.1 (2025/10/20)
 - Init Build

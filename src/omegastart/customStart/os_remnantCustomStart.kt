@@ -116,6 +116,12 @@ class os_remnantCustomStart: CustomStart() {
         data.addScriptBeforeTimePass {
             val nexii = Global.getSector().getCustomEntitiesWithType(Entities.CORONAL_TAP)
             nexii.forEach {
+                if (it.id!="coronal_tap")
+                {
+                    nexii.minus(it)
+                }
+            }
+            nexii.forEach {
                 it.cargo.addAll(addNexusCargo(it))
             }
             val nexusstart = WeightedRandomPicker<SectorEntityToken>()
@@ -168,6 +174,4 @@ class os_remnantCustomStart: CustomStart() {
 
     return cargo
 
-
 }
-
