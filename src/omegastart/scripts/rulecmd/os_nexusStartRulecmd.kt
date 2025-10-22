@@ -809,10 +809,22 @@ fun getShowRaidTarget( dialog: InteractionDialogAPI,  target: MarketAPI?,  rewar
 
 
     if (target == null){
-        spec = Factions.HEGEMONY
-        if (Math.random() > 0.50) spec = Factions.PERSEAN
-        if (Math.random() > 0.50) spec = Factions.DIKTAT
-        if (Math.random() > 0.50) spec = Factions.LUDDIC_CHURCH
+        val factionlist = WeightedRandomPicker<String>()
+        for (faction in Global.getSector().getAllFactions()) {
+            val factionId = faction.getId()
+            if (factionId != Factions.DERELICT && factionId != "nex_derelict" && factionId != Factions.REMNANTS && factionId != Factions.OMEGA && factionId != Factions.TRITACHYON){
+                val markets = Misc.getFactionMarkets(factionId)
+                val hasMilitaryMarket = markets.any { m ->
+                    !m.isHidden && m.hasSpaceport() &&
+                            (m.hasIndustry(Industries.MILITARYBASE) || m.hasIndustry(Industries.HIGHCOMMAND))
+                }
+                if (hasMilitaryMarket) {
+                    factionlist.add(factionId)
+                }
+            }
+        }
+        spec = factionlist.pick()
+
         isinit = true
         val list = WeightedRandomPicker<MarketAPI>()
         Misc.getFactionMarkets(spec).forEach {
