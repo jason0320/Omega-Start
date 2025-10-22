@@ -13,7 +13,6 @@ ShowImageVisual orbital","The Coronal Hypershunt welcomes you into its graces, a
 70:os_nexusDeconstructMain:Manage automated hulls
 90:os_nexusConstructMenu:Consider building a new Hypershunt
 95:os_nexusPartyTimeShow:Raid requests
-96:os_nexusPartyTimeReward:Raid rewards
 100:defaultLeave:Leave",,,,,,,,,,,,,
 os_nexusDialog1,DialogOptionSelected,$option == os_nexusCargoPicker,os_nexusStartRulecmd 1,,,,,,,,,,,,,,,
 os_nexusDialog2,DialogOptionSelected,$option == os_nexusProductionPicker,os_nexusStartRulecmd 2,,,,,,,,,,,,,,,
