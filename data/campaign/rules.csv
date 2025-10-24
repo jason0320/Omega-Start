@@ -6,13 +6,13 @@ $faction.id == neutral
 $customType == coronal_tap
 $global.os_nexusStart score:10000
 $player.commissionFactionId == omega","os_nexusStartRulecmd 0
+os_nexusStartRulecmd 5
 ShowImageVisual orbital","The Coronal Hypershunt welcomes you into its graces, allowing you to make use of its services.","0:os_nexusCargoPicker:Evaluate the Hypershunt' cargo
 10:os_nexusProductionPicker:Request immediate production
 30:os_nexusStorage:Access the storage network
 50:os_nexusRepair:Initiate fleet repairs
 70:os_nexusDeconstructMain:Manage automated hulls
 90:os_nexusConstructMenu:Consider building a new Hypershunt
-95:os_nexusPartyTimeShow:Raid requests
 100:defaultLeave:Leave",,,,,,,,,,,,,
 os_nexusDialog1,DialogOptionSelected,$option == os_nexusCargoPicker,os_nexusStartRulecmd 1,,,,,,,,,,,,,,,
 os_nexusDialog2,DialogOptionSelected,$option == os_nexusProductionPicker,os_nexusStartRulecmd 2,,,,,,,,,,,,,,,
