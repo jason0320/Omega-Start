@@ -43,6 +43,7 @@ class OS_modPlugin: BaseModPlugin() {
         val player = Global.getSector().getFaction(Factions.PLAYER)
         for (faction in Global.getSector().getAllFactions()) {
             val factionId = faction.getId()
+            if (factionId == Factions.PLAYER) continue
             if (factionId == Factions.DERELICT) continue
             if (factionId == "nex_derelict") continue
             if (factionId == Factions.REMNANTS) continue
