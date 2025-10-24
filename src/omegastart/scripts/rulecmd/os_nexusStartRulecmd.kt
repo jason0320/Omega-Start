@@ -58,6 +58,14 @@ class os_nexusStartRulecmd: BaseCommandPlugin() { // stuff to handle nexus inter
                 dialog.textPanel.addPara("Each Hypershunt has its own cargo for offer, and are prepared to produce Omega hulls and weapons instantaneously - provided you have the credits to authorize the production, that is.")
                 dialog.textPanel.setFontInsignia()
 
+                dialog.optionPanel.removeOption("defaultLeave")
+                if (Global.getSector().intelManager.hasIntelOfClass(os_nexusRaidIntel::class.java) && Global.getSector().memoryWithoutUpdate.getInt("\$os_nexusParty")==1){
+                    dialog.optionPanel.addOption("Raid rewards", "os_nexusPartyTimeReward")
+                }
+                else if (!Global.getSector().intelManager.hasIntelOfClass(os_nexusRaidIntel::class.java) && !Global.getSector().memoryWithoutUpdate.getBoolean("\$os_nexusPartyTimeout")){
+                    dialog.optionPanel.addOption("Raid requests", "os_nexusPartyTimeShow")
+                }
+                dialog.optionPanel.addOption("Leave", "defaultLeave")
             }
 
             1 -> {

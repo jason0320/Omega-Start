@@ -2,11 +2,10 @@ id,trigger,conditions,script,text,options,notes,,,,,,,,
 # nexus custom start interactions,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,
 os_nexusOpen,DialogOptionSelected,"$option == salExplore
-$faction.id == neutral
+#faction.id == neutral
 $customType == coronal_tap
 $global.os_nexusStart score:10000
 $player.commissionFactionId == omega","os_nexusStartRulecmd 0
-os_nexusStartRulecmd 5
 ShowImageVisual orbital","The Coronal Hypershunt welcomes you into its graces, allowing you to make use of its services.","0:os_nexusCargoPicker:Evaluate the Hypershunt' cargo
 10:os_nexusProductionPicker:Request immediate production
 30:os_nexusStorage:Access the storage network
@@ -31,8 +30,8 @@ os_nexusDeconstruct3,DialogOptionSelected,$option == os_nexusRecap,os_nexusStart
 os_nexusDialog6,DialogOptionSelected,$option == os_nexusDeconstructProceed,os_nexusStartRulecmd 9,,,,,,,,,,,,,,,
 os_nexusDialog7,DialogOptionSelected,$option == os_nexusBack,os_nexusStartRulecmd 5,,,,,,,,,,,,,,,
 os_nexusDialog8,DialogOptionSelected,"$option == salExplore
-$faction.id == neutral score:10000
-$customType == coronal_tap
+#$faction.id == neutral
+$customType == coronal_tap score:10000
 $global.os_nexusStart",os_nexusStartRulecmd 5,,,# TODO: FINISH ADDING OMEGA RAID QUEST,,,,,,,,,,,,
 os_nexusConstructMenu,DialogOptionSelected,$option == os_nexusConstructMenu,os_nexusStartRulecmd 14,"With sufficient materials, you may dispatch a fleet to a target star system to construct a new Hypershunt. It will be fully operational 30 days after the fleet arrives. You must have visited the system at least once.
 You may only dispatch one fleet every 90 days.","0:os_nexusConstruct:Choose a location
