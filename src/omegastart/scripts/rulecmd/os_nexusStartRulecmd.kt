@@ -139,7 +139,7 @@ class os_nexusStartRulecmd: BaseCommandPlugin() { // stuff to handle nexus inter
             dialog.optionPanel.addOption("Initiate fleet repairs", "os_nexusRepair")
             dialog.optionPanel.setTooltip("os_nexusRepair", "A free automated repair procedure. Restores all ships to full CR and hull integrity at no cost.")
             dialog.optionPanel.addOption("Manage automated hulls", "os_nexusDeconstructMain")
-            dialog.optionPanel.setTooltip("os_nexusDeconstruct", "Destroy an automated hull to add it to the Omega' known hulls.")
+            dialog.optionPanel.setTooltip("os_nexusDeconstruct", "Destroy an automated hull to add it to the Omega's known hulls.")
             dialog.optionPanel.addOption("Consider building a new Hypershunt", "os_nexusConstructMenu")
             dialog.optionPanel.setTooltip("os_nexusConstructMenu", "Construct a new Hypershunt")
             if (Global.getSector().intelManager.hasIntelOfClass(os_nexusRaidIntel::class.java) && Global.getSector().memoryWithoutUpdate.getInt("\$os_nexusParty")==1){
@@ -169,7 +169,7 @@ class os_nexusStartRulecmd: BaseCommandPlugin() { // stuff to handle nexus inter
               //  dialog.optionPanel.addOption("Access the control node", "marketOpenCoreUI")
              //   dialog.optionPanel.addOption("Log off", "defaultLeave")
               //  dialog.optionPanel.removeOption("marketRepair")
-                dialog.textPanel.addPara("You're currently accessing the Coronal Hypershunt' global data storage network.")
+                dialog.textPanel.addPara("You're currently accessing the Coronal Hypershunt's global data storage network.")
                 dialog.textPanel.addPara("Any items stored in here will be available to retrieve from any other Coronal Hypershunt in the sector.")
                 dialog.textPanel.addPara("Exit the storage network to return to using the Coronal Hypershunt.")
             }
@@ -616,7 +616,7 @@ fun getCost(cargo: CargoAPI): Float {
                         }
                         val para1 = dialog.textPanel.addPara(member!!.shipName + ", a " + member.hullSpec.hullNameWithDashClass + " is selected.").setHighlight(member.shipName)
                         showFactionInfo(factionspec, dialog)
-                        dialog.textPanel.addPara("Proceeding will destroy the ship and add it to the Omega' known ships.").setHighlight("destroy", "add")
+                        dialog.textPanel.addPara("Proceeding will destroy the ship and add it to the Omega's known ships.").setHighlight("destroy", "add")
                         dialog.textPanel.addPara("This action cannot be undone.").setColor(Color.RED)
                         dialog.textPanel.addPara("Would you like to proceed?")
                         dialog.visualPanel.showFleetMemberInfo(member)
@@ -943,11 +943,11 @@ fun getRaidReward(dialog: InteractionDialogAPI) {
         dialog.textPanel.addPara("RECONSTRUCTING MESSAGE - // waiting ... //")
         dialog.textPanel.setFontInsignia()
         dialog.textPanel.addPara("Voluminous greetings, caretaker.")
-        dialog.textPanel.addPara("$numgamma chocolate mousse, $numbeta lemon zest, $numalpha blueberry gummies and $numcredits credits are given ")
+        dialog.textPanel.addPara("$numgamma chocolate mousse, $numbeta lemon zest, $numalpha blueberry gummies and $numcredits credits are given")
             .setHighlight(numgamma.toString(), numbeta.toString(), numalpha.toString(), numcredits.toString())
 
         dialog.textPanel.setFontSmallInsignia()
-        dialog.textPanel.addPara("$numgamma gamma core, $numbeta beta core, $numalpha alpha core and $numcredits credits. are rewarded")
+        dialog.textPanel.addPara("$numgamma gamma core, $numbeta beta core, $numalpha alpha core and $numcredits credits are rewarded")
             .setHighlight(numgamma.toString(), numbeta.toString(), numalpha.toString(), numcredits.toString())
         dialog.textPanel.setFontInsignia()
 

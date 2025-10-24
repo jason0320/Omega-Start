@@ -6,7 +6,7 @@ os_nexusOpen,DialogOptionSelected,"$option == salExplore
 $customType == coronal_tap
 $global.os_nexusStart score:10000
 $player.commissionFactionId == omega","os_nexusStartRulecmd 0
-ShowImageVisual orbital","The Coronal Hypershunt welcomes you into its graces, allowing you to make use of its services.","0:os_nexusCargoPicker:Evaluate the Hypershunt' cargo
+ShowImageVisual orbital","The Coronal Hypershunt welcomes you into its graces, allowing you to make use of its services.","0:os_nexusCargoPicker:Evaluate the Hypershunt's cargo
 10:os_nexusProductionPicker:Request immediate production
 30:os_nexusStorage:Access the storage network
 50:os_nexusRepair:Initiate fleet repairs
