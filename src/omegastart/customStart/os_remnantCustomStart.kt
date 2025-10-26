@@ -78,6 +78,10 @@ class os_remnantCustomStart: CustomStart() {
                 SCUtils.getPlayerData().setOfficerInEmptySlotIfAvailable(officer)
                 officer.addSkill("sc_automated_magnetic_shielding")
             }
+            else {
+                var player = Global.getSector().getPlayerPerson()
+                player.stats.setSkillLevel(Skills.AUTOMATED_SHIPS, 2f)
+            }
 
             val fleet: CampaignFleetAPI = Global.getSector().playerFleet
             Global.getSector().getFaction(Factions.OMEGA).relToPlayer.rel = 100f
