@@ -55,26 +55,9 @@ class os_nexusStartRulecmd: BaseCommandPlugin() { // stuff to handle nexus inter
                 dialog.textPanel.addPara("Open a comm link with the Hypershunt to begin.")
                 dialog.textPanel.setFontSmallInsignia()
                 dialog.textPanel.addPara("You may repair your ships at no cost at any Hypershunt, and make use of their services to maintain your fleet.")
-                dialog.textPanel.addPara("Each Hypershunt has its own cargo for offer, and are prepared to produce Omega hulls and weapons instantaneously - provided you have the credits to authorize the production, that is.")
+                dialog.textPanel.addPara("Each Hyperhunt has its own cargo for offer, and are prepared to produce Omega hulls and weapons instantaneously - provided you have the credits to authorize the production, that is.")
                 dialog.textPanel.setFontInsignia()
 
-                dialog.optionPanel.removeOption("defaultLeave")
-                if (Global.getSector().intelManager.hasIntelOfClass(os_nexusRaidIntel::class.java) && Global.getSector().memoryWithoutUpdate.getInt("\$os_nexusParty")==1){
-                    dialog.optionPanel.addOption("Raid rewards", "os_nexusPartyTimeReward")
-                }
-                else if (Global.getSector().memoryWithoutUpdate.getBoolean("\$os_nexusPartyTimeout")){
-                    dialog.optionPanel.addOption("Raid cooldown", "os_nexusPartyCoolDown")
-                    dialog.optionPanel.setEnabled("os_nexusPartyCoolDown", false)
-                    val expire = Global.getSector().memoryWithoutUpdate.getExpire("\$os_nexusPartyTimeout")
-                    if  (expire > 0f){
-                        dialog.optionPanel.setTooltip("os_nexusPartyCoolDown","You may throw another party in ${expire.roundToInt()} days.")
-                    }
-                }
-                else if (!Global.getSector().intelManager.hasIntelOfClass(os_nexusRaidIntel::class.java) && !Global.getSector().memoryWithoutUpdate.getBoolean("\$os_nexusPartyTimeout")){
-                    dialog.optionPanel.addOption("Raid requests", "os_nexusPartyTimeShow")
-                }
-
-                dialog.optionPanel.addOption("Leave", "defaultLeave")
             }
 
             1 -> {
@@ -843,7 +826,7 @@ fun getShowRaidTarget( dialog: InteractionDialogAPI,  target: MarketAPI?,  rewar
         val factionlist = WeightedRandomPicker<String>()
         for (faction in Global.getSector().getAllFactions()) {
             val factionId = faction.getId()
-            if (factionId != Factions.DERELICT && factionId != "nex_derelict" && factionId != Factions.REMNANTS && factionId != Factions.OMEGA && factionId != Factions.TRITACHYON){
+            if (factionId != Factions.DERELICT && factionId != "nex_derelict" && factionId != Factions.REMNANTS && factionId != Factions.OMEGA && factionId != Factions.TRITACHYON && factionId != Factions.PLAYER){
                 val markets = Misc.getFactionMarkets(factionId)
                 val hasMilitaryMarket = markets.any { m ->
                     !m.isHidden && m.hasSpaceport() &&
