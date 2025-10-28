@@ -2,6 +2,8 @@ package data.omegastart.customStart
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.*
+import com.fs.starfarer.api.campaign.econ.MarketAPI
+import com.fs.starfarer.api.campaign.econ.SubmarketAPI
 import com.fs.starfarer.api.campaign.rules.MemKeys
 import com.fs.starfarer.api.campaign.rules.MemoryAPI
 import com.fs.starfarer.api.characters.CharacterCreationData
@@ -104,19 +106,39 @@ class os_remnantCustomStart: CustomStart() {
             //val stationsystem = Global.getSector().getStarSystem("corvus")
             val stationsystem = Global.getSector().getSystemsWithTag(Tags.HAS_CORONAL_TAP).get(0)
             val station: SectorEntityToken = stationsystem.addCustomEntity("os_nexusStorage", "Hypershunt Global Storage", "station_side05", Factions.NEUTRAL)
-           // val market: MarketAPI = Global.getFactory().createMarket("os_nexusStorage", "Nexus Global Storage", 0)
             Misc.setAbandonedStationMarket("os_nexusStorage", station)
             station.sensorProfile = 0f
             station.setInteractionImage("icons", "omegaflag")
-
             station.market.addIndustry(Industries.SPACEPORT)
+            station.setCircularOrbitPointingDown(stationsystem.center, 0f, 10000f, 9999f)
+
+            if (Global.getSettings().modManager.isModEnabled("aotd_qol")) {
+                val station1: SectorEntityToken = stationsystem.addCustomEntity(
+                    "os_nexusStation",
+                    "Omega Station",
+                    "station_side05",
+                    Factions.OMEGA
+                )
+                val market: MarketAPI = Global.getFactory().createMarket("os_nexusMarket", "Omega Market", 10)
+                market.factionId = Factions.OMEGA
+                market.primaryEntity = station1
+                station1.market = market
+                market.addIndustry(Industries.SPACEPORT)
+                market.addSubmarket(Submarkets.SUBMARKET_STORAGE)
+                market.surveyLevel = MarketAPI.SurveyLevel.FULL
+                Global.getSector().economy.addMarket(market, false)
+
+                station1.sensorProfile = 0f
+                station1.setInteractionImage("icons", "omegaflag")
+                station1.setCircularOrbitPointingDown(stationsystem.center, 0f, 10000f, 9999f)
+            }
+
+
+            //station.market.addIndustry(Industries.SPACEPORT)
 
             //station.market.getSubmarket(Submarkets.SUBMARKET_STORAGE).cargo.addMothballedShip(FleetMemberType.SHIP, "fulgent_Assault", "Engiels")
             //station.market.getSubmarket(Submarkets.SUBMARKET_STORAGE).cargo.addMothballedShip(FleetMemberType.SHIP, "glimmer_Support", "Gomiel")
             //station.market.getSubmarket(Submarkets.SUBMARKET_STORAGE).cargo.addMothballedShip(FleetMemberType.SHIP, "glimmer_Support", "Halitosis")
-
-            station.setCircularOrbitPointingDown(stationsystem.center, 0f, 100000f, 9999f)
-
 
         }
         data.addScriptBeforeTimePass {
@@ -137,7 +159,7 @@ class os_remnantCustomStart: CustomStart() {
             Global.getSector().intelManager.addIntel(os_nexusLocationIntel(), false)
             FactionCommissionIntel(Global.getSector().getFaction(Factions.OMEGA)).missionAccepted()
             Global.getSector().memoryWithoutUpdate.set("\$nex_startLocation", startloc.id)
-
+            
         }
 
 
