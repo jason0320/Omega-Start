@@ -37,6 +37,11 @@ class OS_modPlugin: BaseModPlugin() {
                     }
                 }
             }
+
+            val remmy = Global.getSector().getFaction(Factions.OMEGA)
+            if (Global.getSettings().modManager.isModEnabled("aotd_qol")) {
+                remmy.isShowInIntelTab = true
+            }
         }
     }
 
@@ -64,6 +69,7 @@ class OS_modPlugin: BaseModPlugin() {
             val remmy = Global.getSector().getFaction(Factions.OMEGA)
             remmy.setRelationship(Factions.DERELICT, 0f)
             remmy.setRelationship(Factions.REMNANTS, 0f)
+
         }
     }
 
