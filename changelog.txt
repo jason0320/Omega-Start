@@ -1,3 +1,7 @@
+v2.3 (2025/10/30)
+- Robot factions starting relation bug fix
+- Add Omega Trauma sub faction ships to Omega's ship list if the mod is activated
+
 v2.2 (2025/10/30)
 - Change skill to be immune to space hazards
 

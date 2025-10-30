@@ -164,7 +164,20 @@ class os_remnantCustomStart: CustomStart() {
             Global.getSector().intelManager.addIntel(os_nexusLocationIntel(), false)
             FactionCommissionIntel(Global.getSector().getFaction(Factions.OMEGA)).missionAccepted()
             Global.getSector().memoryWithoutUpdate.set("\$nex_startLocation", startloc.id)
-            
+
+            if (Global.getSettings().modManager.isModEnabled("Omega_Psychasthenia")) {
+                val remmy = Global.getSector().getFaction(Factions.OMEGA)
+                val loader = Global.getSettings().allShipHullSpecs  // map of hullId → ShipHullSpecAPI
+                for (hull in loader) {
+                    val tags = hull.tags
+                    if (tags.contains("Omega_Psychasthenia") || tags.contains("Omega_Watcher")) {
+                        remmy.knownShips.add(hull.hullId)
+                    }
+                }
+            }
+
+            val remmy = Global.getSector().getFaction(Factions.OMEGA)
+            remmy.isShowInIntelTab = true
         }
 
 
