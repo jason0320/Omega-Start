@@ -1,3 +1,6 @@
+v2.3.1 (2025/10/30)
+- Fix version file link
+
 v2.3 (2025/10/30)
 - Robot factions starting relation bug fix
 - Add Omega Trauma sub faction ships to Omega's ship list if the mod is activated
