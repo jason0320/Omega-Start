@@ -6,6 +6,9 @@ import com.fs.starfarer.api.campaign.GenericPluginManagerAPI
 import com.fs.starfarer.api.combat.ShipAPI
 import com.fs.starfarer.api.impl.campaign.ids.Factions
 import exerelin.campaign.DiplomacyManager
+import com.fs.starfarer.api.EveryFrameScript
+import com.fs.starfarer.api.campaign.SectorAPI
+import com.fs.starfarer.ui.new
 
 class OS_modPlugin: BaseModPlugin() {
 
@@ -37,6 +40,11 @@ class OS_modPlugin: BaseModPlugin() {
                     }
                 }
             }
+            
+            if (newGame){
+                Global.getSector().getFaction(Factions.PLAYER).setRelationship(Factions.REMNANTS, 0f)
+                Global.getSector().getFaction(Factions.PLAYER).setRelationship(Factions.DERELICT, 0f)
+            }
 
             val remmy = Global.getSector().getFaction(Factions.OMEGA)
             remmy.isShowInIntelTab = true
@@ -61,17 +69,6 @@ class OS_modPlugin: BaseModPlugin() {
 
                 player.setRelationship(factionId, DiplomacyManager.STARTING_RELATIONSHIP_HOSTILE)
             }
-            player.setRelationship(Factions.DERELICT, 0f)
-            player.setRelationship(Factions.REMNANTS, 0f)
-
-            val remmy = Global.getSector().getFaction(Factions.OMEGA)
-            remmy.setRelationship(Factions.DERELICT, 0f)
-            remmy.setRelationship(Factions.REMNANTS, 0f)
-
-            Global.getSector().getFaction(Factions.REMNANTS).setRelationship(Factions.OMEGA, 0f)
-            Global.getSector().getFaction(Factions.DERELICT).setRelationship(Factions.OMEGA, 0f)
-
         }
     }
-
 }
