@@ -78,7 +78,6 @@ class os_remnantCustomStart: CustomStart() {
 
                 SCUtils.getPlayerData().addOfficerToFleet(officer)
                 SCUtils.getPlayerData().setOfficerInEmptySlotIfAvailable(officer)
-                officer.addSkill("sc_automated_magnetic_shielding")
             }
             else {
                 var player = Global.getSector().getPlayerPerson()
