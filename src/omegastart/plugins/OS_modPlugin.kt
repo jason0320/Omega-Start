@@ -47,6 +47,11 @@ class OS_modPlugin: BaseModPlugin() {
                 Global.getSector().getFaction(Factions.OMEGA).setRelationship(Factions.REMNANTS, 0f)
                 Global.getSector().getFaction(Factions.OMEGA).setRelationship(Factions.DERELICT, 0f)
 
+                if (Global.getSettings().modManager.isModEnabled("IndEvo")) {
+                    Global.getSector().getFaction(Factions.PLAYER).setRelationship("IndEvo_derelict", 0f)
+                    Global.getSector().getFaction(Factions.OMEGA).setRelationship("IndEvo_derelict", 0f)
+                }
+
                 Global.getSector().playerFleet.fleetData.membersListCopy.forEach {
                     it.repairTracker.cr = 1f
                     it.status.hullFraction = 1f
