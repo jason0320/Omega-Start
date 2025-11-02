@@ -194,9 +194,9 @@ class os_nexusStartRulecmd: BaseCommandPlugin() { // stuff to handle nexus inter
 //                remmy.addKnownShip(ship!!.hullSpec.baseHullId, false)
 //                remmy.alwaysKnownShips.add(ship!!.hullSpec.baseHullId)
 //                remmy.addUseWhenImportingShip(ship!!.hullSpec.baseHullId)
-                remmy.addKnownShip(ship!!.hullSpec.hullId, false)
-                remmy.alwaysKnownShips.add(ship!!.hullSpec.hullId)
-                remmy.addUseWhenImportingShip(ship!!.hullSpec.hullId)
+                remmy.addKnownShip(ship!!.hullSpec.restoredToHullId, false)
+                remmy.alwaysKnownShips.add(ship!!.hullSpec.restoredToHullId)
+                remmy.addUseWhenImportingShip(ship!!.hullSpec.restoredToHullId)
                 if (ship!!.hullSpec.baseHullId != "rat_genesis") {
                     val varlist = Global.getSettings().allVariantIds
                     val shipvarlist = ArrayList<String>()
