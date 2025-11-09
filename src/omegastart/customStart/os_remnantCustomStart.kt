@@ -118,18 +118,17 @@ class os_remnantCustomStart: CustomStart() {
                     "station_side05",
                     Factions.OMEGA
                 )
-                val market: MarketAPI = Global.getFactory().createMarket("os_nexusMarket", "Omega Market", 10)
+                val market: MarketAPI = Global.getFactory().createMarket("os_nexusMarket", "Omega Market", 1)
                 market.factionId = Factions.OMEGA
                 market.primaryEntity = station1
                 station1.market = market
-                market.addCondition(Conditions.POPULATION_10)
+                market.addCondition(Conditions.POPULATION_1)
                 market.addSubmarket(Submarkets.SUBMARKET_OPEN)
                 market.addSubmarket(Submarkets.SUBMARKET_STORAGE)
                 market.addIndustry(Industries.SPACEPORT)
                 market.addIndustry(Industries.POPULATION)
                 market.addTag(Tags.STATION)
                 market.addTag(Tags.MARKET_NO_OFFICER_SPAWN)
-                market.surveyLevel = MarketAPI.SurveyLevel.FULL
                 Global.getSector().economy.addMarket(market, false)
 
 
