@@ -131,6 +131,8 @@ class os_remnantCustomStart: CustomStart() {
                 market.addTag(Tags.MARKET_NO_OFFICER_SPAWN)
                 Global.getSector().economy.addMarket(market, false)
 
+                market.getCommodityData(Commodities.SUPPLIES).addTradeMod(Factions.OMEGA, 1500f, 30f)
+                market.getCommodityData(Commodities.FOOD).addTradeMod(Factions.OMEGA, 3000f, 30f)
 
                 station1.sensorProfile = 0f
                 station1.setInteractionImage("icons", "omegaflag")
