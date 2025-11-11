@@ -13,6 +13,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Conditions
 import com.fs.starfarer.api.impl.campaign.ids.Industries
 import com.fs.starfarer.ui.new
+import lunalib.lunaSettings.LunaSettings
 
 class OS_modPlugin: BaseModPlugin() {
 
@@ -46,6 +47,36 @@ class OS_modPlugin: BaseModPlugin() {
             }
             
             if (newGame){
+                val player = Global.getSector().getFaction(Factions.PLAYER)
+                val remmy = Global.getSector().getFaction(Factions.OMEGA)
+                var peacefulMode = LunaSettings.getBoolean("zz omegastart", "peacefulMode")!!
+                for (faction in Global.getSector().getAllFactions()) {
+                    val factionId = faction.getId()
+                    if (factionId == Factions.PLAYER) continue
+                    if (factionId == Factions.DERELICT) continue
+                    if (factionId == "nex_derelict") continue
+                    if (factionId == Factions.REMNANTS) continue
+                    if (factionId == Factions.OMEGA) continue
+                    if (factionId == Factions.TRITACHYON) continue
+                    if (factionId == "sotf_dustkeepers") continue
+                    if (factionId == "sotf_dustkeepers_proxies") continue
+                    if (factionId == "sotf_sierra_faction") continue
+                    if (factionId == "sotf_dreaminggestalt") continue
+
+                    if (peacefulMode) {
+                        remmy.setRelationship(factionId, 0f)
+                        remmy.setRelationship(Factions.PIRATES, DiplomacyManager.STARTING_RELATIONSHIP_HOSTILE)
+                        player.setRelationship(Factions.PIRATES, DiplomacyManager.STARTING_RELATIONSHIP_HOSTILE)
+                        remmy.setRelationship(Factions.LUDDIC_PATH, DiplomacyManager.STARTING_RELATIONSHIP_HOSTILE)
+                        player.setRelationship(Factions.LUDDIC_PATH, DiplomacyManager.STARTING_RELATIONSHIP_HOSTILE)
+                    }
+                    else
+                    {
+                        player.setRelationship(factionId, DiplomacyManager.STARTING_RELATIONSHIP_HOSTILE)
+                        remmy.setRelationship(factionId, DiplomacyManager.STARTING_RELATIONSHIP_HOSTILE)
+                    }
+                }
+
                 Global.getSector().getFaction(Factions.PLAYER).setRelationship(Factions.REMNANTS, 0f)
                 Global.getSector().getFaction(Factions.PLAYER).setRelationship(Factions.DERELICT, 0f)
                 Global.getSector().getFaction(Factions.OMEGA).setRelationship(Factions.REMNANTS, 0f)
@@ -109,24 +140,4 @@ class OS_modPlugin: BaseModPlugin() {
         }
     }
 
-    override fun onNewGameAfterEconomyLoad() {
-        if (Global.getSector().memoryWithoutUpdate.getBoolean("\$os_nexusStart")) {
-            val player = Global.getSector().getFaction(Factions.PLAYER)
-            for (faction in Global.getSector().getAllFactions()) {
-                val factionId = faction.getId()
-                if (factionId == Factions.PLAYER) continue
-                if (factionId == Factions.DERELICT) continue
-                if (factionId == "nex_derelict") continue
-                if (factionId == Factions.REMNANTS) continue
-                if (factionId == Factions.OMEGA) continue
-                if (factionId == Factions.TRITACHYON) continue
-                if (factionId == "sotf_dustkeepers") continue
-                if (factionId == "sotf_dustkeepers_proxies") continue
-                if (factionId == "sotf_sierra_faction") continue
-                if (factionId == "sotf_dreaminggestalt") continue
-
-                player.setRelationship(factionId, DiplomacyManager.STARTING_RELATIONSHIP_HOSTILE)
-            }
-        }
-    }
 }
