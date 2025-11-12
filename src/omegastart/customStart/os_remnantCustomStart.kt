@@ -103,7 +103,10 @@ class os_remnantCustomStart: CustomStart() {
             }
             fleet.fleetData.setSyncNeeded()
             //val stationsystem = Global.getSector().getStarSystem("corvus")
-            val stationsystem = Global.getSector().getSystemsWithTag(Tags.HAS_CORONAL_TAP).get(0)
+            var stationsystem = Global.getSector().getSystemsWithTag(Tags.HAS_CORONAL_TAP).random()
+            if (Global.getSettings().modManager.isModEnabled("MODCalveraSystem")) {
+                stationsystem = Global.getSector().getStarSystem("calvera")
+            }
             val station: SectorEntityToken = stationsystem.addCustomEntity("os_nexusStorage", "Hypershunt Global Storage", "station_side05", Factions.NEUTRAL)
             Misc.setAbandonedStationMarket("os_nexusStorage", station)
             station.sensorProfile = 0f
