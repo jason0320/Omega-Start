@@ -3,7 +3,7 @@
 		{
 			"id":"os_remnantStart",
 			"name":"Ascent",
-			"difficulty":"Normal",
+			"difficulty":"Hard",
 			"desc":"Abandon humanity and take your chances. Start with the Automated Ships skill and the ability to pilot automated ships, as well as use any Coronal Hypershunt as a market for restocking and other new fleet-related services.",
 			"className":"data.omegastart.customStart.os_remnantCustomStart",
 		},

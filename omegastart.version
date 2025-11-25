@@ -1,11 +1,11 @@
 {
     "masterVersionFile":"https://raw.githubusercontent.com/jason0320/Omega-Start/main/omegastart.version",
     "modName":"zz Omega Start",
-    "directDownloadURL": "https://github.com/jason0320/Omega-Start/releases/latest/download/zz.Omega.Start-v2.6.7z",
+    "directDownloadURL": "https://github.com/jason0320/Omega-Start/releases/latest/download/zz.Omega.Start-v2.7.7z",
     "modVersion":
     {
         "major":2,
-        "minor":6,
+        "minor":7,
         "patch":0
     },
 

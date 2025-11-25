@@ -8,6 +8,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Factions
 import exerelin.campaign.DiplomacyManager
 import com.fs.starfarer.api.impl.campaign.ids.Commodities
 import com.fs.starfarer.api.impl.campaign.ids.Conditions
+import data.omegastart.customStart.os_nexusRestocker
 import kaysaar.aotd_question_of_loyalty.data.scripts.commision.AoTDCommissionDataManager
 import lunalib.lunaSettings.LunaSettings
 
@@ -41,7 +42,12 @@ class OS_modPlugin: BaseModPlugin() {
                     }
                 }
             }
-            
+
+            if (!Global.getSector().listenerManager.hasListenerOfClass(os_nexusRestocker::class.java))
+            {
+                Global.getSector().listenerManager.addListener(os_nexusRestocker())
+            }
+
             if (newGame){
                 val player = Global.getSector().getFaction(Factions.PLAYER)
                 val remmy = Global.getSector().getFaction(Factions.OMEGA)

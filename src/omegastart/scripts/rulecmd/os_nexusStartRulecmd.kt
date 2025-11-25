@@ -26,6 +26,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.IntervalUtil
 import com.fs.starfarer.api.util.Misc
 import com.fs.starfarer.api.util.WeightedRandomPicker
+import data.omegastart.customStart.addNexusCargo
 import data.omegastart.customStart.os_nexusCustomProduction
 import data.omegastart.customStart.os_nexusRaidIntel
 import data.omegastart.scripts.rulecmd.os_nexusStartRulecmd.Companion.METALS_PER_NEXUS
@@ -386,8 +387,10 @@ class os_nexusBuildScript(var source: CampaignFleetAPI, var loc: EntityLocation)
         val orbitDays = orbitRadius / 20f
         loc.orbit = Global.getFactory().createCircularOrbitPointingDown(star, random.nextFloat() * 360f, orbitRadius, orbitDays)
         val entity = BaseThemeGenerator.addEntity(random, system, loc, Entities.CORONAL_TAP, "neutral")
+        val fleet = entity.entity
+        fleet.cargo.addAll(addNexusCargo(fleet))
         system.addTag(Tags.HAS_CORONAL_TAP) // necessary for other remnant-related stuff to work properly
-//        source.addAssignment(FleetAssignment.GO_TO_LOCATION_AND_DESPAWN, fleet, 999f)
+        source.addAssignment(FleetAssignment.GO_TO_LOCATION_AND_DESPAWN, fleet, 999f)
     }
 }
 
