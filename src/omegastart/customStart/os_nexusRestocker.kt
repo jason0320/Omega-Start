@@ -18,7 +18,9 @@ class os_nexusRestocker : EconomyTickListener { // restocks nexii monthly
             }
         }
         nexii.forEach {
-            it.cargo.clear()
+            if (it.cargo != null) {
+                it.cargo.clear()
+            }
             it.cargo.addAll(addNexusCargo(it))
         }
     }
