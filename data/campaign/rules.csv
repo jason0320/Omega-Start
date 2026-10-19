@@ -1,8 +1,8 @@
 id,trigger,conditions,script,text,options,notes,,,,,,,,
 # nexus custom start interactions,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,
-os_nexusOpen,ShowSalvageEntityDetails,"$customType == coronal_tap
-$global.os_nexusStart score:100
+os_nexusOpen,ShowSalvageEntityDetails,"$customType == coronal_tap score:100000000
+$global.os_nexusStart score:100000000
 $player.commissionFactionId == omega","os_nexusStartRulecmd 0
 ShowImageVisual orbital","The Coronal Hypershunt welcomes you into its graces, allowing you to make use of its services.","0:os_nexusCargoPicker:Evaluate the Hypershunt's cargo
 10:os_nexusProductionPicker:Request immediate production
@@ -29,7 +29,7 @@ os_nexusDialog6,DialogOptionSelected,$option == os_nexusDeconstructProceed,os_ne
 os_nexusDialog7,DialogOptionSelected,$option == os_nexusBack,os_nexusStartRulecmd 5,,,,,,,,,,,,,,,
 os_nexusDialog8,DialogOptionSelected,"$option == salExplore
 #$faction.id == neutral
-$customType == coronal_tap score:100
+$customType == coronal_tap score:100000000
 $global.os_nexusStart",os_nexusStartRulecmd 5,,,,,,,,,,,,,,,
 os_nexusConstructMenu,DialogOptionSelected,$option == os_nexusConstructMenu,os_nexusStartRulecmd 14,"With sufficient materials, you may dispatch a fleet to a target star system to construct a new Hypershunt. It will be fully operational 30 days after the fleet arrives. You must have visited the system at least once.
 You may only dispatch one fleet every 90 days.","0:os_nexusConstruct:Choose a location
@@ -48,7 +48,7 @@ os_nexusStartRulecmd 10",,,,,,,,,,,,,,,
 os_nexusRedirect,DialogOptionSelected,$option == os_nexusRedirect,"os_nexusStartRulecmd 11
 os_nexusStartRulecmd 5",,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,
-os_nexusDefenderSkip,DialogOptionSelected,"$option == salExplore score:1000
+os_nexusDefenderSkip,DialogOptionSelected,"$option == salExplore score:10000000
 os_getRemnantDefenders 1
 $global.os_nexusStart
 $player.commissionFactionId == omega","
@@ -66,7 +66,7 @@ os_nexusPartyTimeReward,DialogOptionSelected,$option == os_nexusPartyTimeReward,
 ,,,,,,,,,,,,,,,,,,
 os_nexHistorianOmegaSkip,OpenCommLink,"
 os_getHistorianOmega 1
-$global.os_nexusStart score:10000
+$global.os_nexusStart score:100000000
 $player.commissionFactionId == omega","
 os_getHistorianOmega 2","A fleet of Remnant drones is intercepting you, but you may transmit your IFF code to disengage it.",0:os_noyeetOmega:Continue as normal,,,,,,,,,,,,,
 os_nexHistorianOmegaSkip2,DialogOptionSelected,$option == os_yeetOmega,os_getHistorianOmega 3,"Your $shipOrFleet chirps out a request with your transponder code, with a request to stand down. Some moments later, the drone interceptors process the information and plod away in search of a new task.",0:defaultLeave:Continue,,,,,,,,,,,,,
