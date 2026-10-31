@@ -5,10 +5,12 @@ import com.fs.starfarer.api.campaign.comm.IntelInfoPlugin
 import com.fs.starfarer.api.impl.campaign.ids.Entities
 import com.fs.starfarer.api.impl.campaign.ids.Tags
 import com.fs.starfarer.api.impl.campaign.intel.BaseIntelPlugin
+import com.fs.starfarer.api.ui.IntelUIAPI
 import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
 import com.fs.starfarer.api.util.IntervalUtil
 import lunalib.lunaExtensions.getCustomEntitiesWithType
+import org.lwjgl.input.Keyboard
 
 class os_nexusLocationIntel: BaseIntelPlugin() {
     val sprite = Global.getSettings().getSpriteName("icons", "omegaflag")
@@ -36,6 +38,45 @@ class os_nexusLocationIntel: BaseIntelPlugin() {
         }
 
         info.addPara("You may repair and restock at any Coronal Hypershunt by docking and opening a comm link.", 5f)
+        val buttong =  addGenericButton(info, width, "Show Motherships on map", "os_nexusLocationToggle")
+        buttong.setShortcut(Keyboard.KEY_T, true)
+    }
+
+    override fun buttonPressConfirmed(buttonId: Any?, ui: IntelUIAPI) {
+        if (buttonId == "os_nexusLocationToggle"){
+            toggleNexusList(this, ui)
+        }
+    }
+    fun toggleNexusList(curr: IntelInfoPlugin?, ui: IntelUIAPI) {
+        val removelist = ArrayList<IntelInfoPlugin>()
+        Global.getSector().intelManager.getIntel(os_nexusShowLocationIntel::class.java).forEach {
+            removelist.add(it)
+        }
+        removelist.forEach {
+            Global.getSector().intelManager.removeIntel(it)
+        }
+        if (ui.isShowingCustomIntelSubset) {
+            ui.updateIntelList(true)
+            ui.updateUIForItem(curr)
+            //for (IntelInfoPlugin intel : Global.getSector().getIntelManager().getIntel(LuddicShrineIntel.class)) {
+            for (intel in Global.getSector().intelManager.getIntel(os_nexusLocationIntel::class.java)) {
+                ui.selectItem(intel)
+                break
+            }
+        } else {
+            val nexii = Global.getSector().getCustomEntitiesWithType(Entities.CORONAL_TAP).forEach {
+                Global.getSector().intelManager.addIntel(os_nexusShowLocationIntel(it), true)
+
+            }
+            val show: MutableList<IntelInfoPlugin> = ArrayList()
+            for (intel in Global.getSector().intelManager.getIntel(os_nexusShowLocationIntel::class.java)) {
+                show.add(intel)
+            }
+            Global.getSector().intelManager.sortIntel(show)
+            ui.updateIntelList(true, show)
+            ui.updateUIForItem(curr)
+        }
+        return
     }
 
     override fun getIcon(): String {

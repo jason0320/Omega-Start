@@ -221,7 +221,7 @@ class os_remnantCustomStart: CustomStart() {
             cargo.addWeapons(it.weaponId, 1)
         }
     }
-    if (Math.random() > 0.97f) cargo.addCommodity(Commodities.OMEGA_CORE, 1f)
+    if (Math.random() > 0.90f) cargo.addCommodity(Commodities.OMEGA_CORE, 1f)
 
 
 
