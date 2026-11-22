@@ -56,7 +56,7 @@ class os_nexusStartRulecmd: BaseCommandPlugin() { // stuff to handle nexus inter
                 dialog.textPanel.addPara("Open a comm link with the Hypershunt to begin.")
                 dialog.textPanel.setFontSmallInsignia()
                 dialog.textPanel.addPara("You may repair your ships at no cost at any Hypershunt, and make use of their services to maintain your fleet.")
-                dialog.textPanel.addPara("Each Hyperhunt has its own cargo for offer, and are prepared to produce Omega hulls and weapons instantaneously - provided you have the credits to authorize the production, that is.")
+                dialog.textPanel.addPara("Each Hypershunt has its own cargo for offer, and are prepared to produce Omega hulls and weapons instantaneously - provided you have the credits to authorize the production, that is.")
                 dialog.textPanel.setFontInsignia()
 
             }
@@ -231,7 +231,7 @@ class os_nexusStartRulecmd: BaseCommandPlugin() { // stuff to handle nexus inter
                 Global.getSector().allFactions.forEach {
                     if (!banlist.contains(it.id) && it.knowsShip(ship!!.hullSpec.baseHullId) && it.factionSpec.id != "omega") {
                         factionspec = it.id
-                        if (factionspec == "rat_abyssals_deep" || factionspec == "tahlan_legiodaemons" || factionspec == "vestige"){
+                        if (factionspec == "rat_abyssals_deep" || factionspec == "tahlan_legiodaemons" || factionspec == "vestige" || factionspec == "uaf_automata"){
                             hascores = true // need to hardcode this because there's no way to know
                         }
                     }
@@ -626,13 +626,25 @@ fun getCost(cargo: CargoAPI): Float {
 
 }
 fun getValidShips(): ArrayList<FleetMemberAPI> {
-     val remmies = Global.getSector().getFaction(Factions.OMEGA)
+    val remmies = Global.getSector().getFaction(Factions.OMEGA)
+    val validShips = ArrayList<FleetMemberAPI>()
 
-     val validShips = ArrayList<FleetMemberAPI>()
+    for (playerFM in Global.getSector().playerFleet.membersWithFightersCopy) {
+        val vanillaAutomatedRecoverable =
+            playerFM.variant.hasHullMod("automated") &&
+            playerFM.hullSpec.hasTag(Tags.AUTOMATED_RECOVERABLE)
 
-        for (playerFM in Global.getSector().playerFleet.membersWithFightersCopy) {
-         if (playerFM.variant.hasHullMod("automated") && playerFM.hullSpec.hasTag(Tags.AUTOMATED_RECOVERABLE) && !remmies.knowsShip(playerFM.hullSpec.baseHullId) &&!playerFM.isFighterWing) validShips.add(playerFM)
+        val uafAutomata =
+            playerFM.variant.hasHullMod("uaf_automataSpec")
+
+        if ((vanillaAutomatedRecoverable || uafAutomata) &&
+            !remmies.knowsShip(playerFM.hullSpec.baseHullId) &&
+            !playerFM.isFighterWing
+        ) {
+            validShips.add(playerFM)
+        }
     }
+
     return validShips
 }
 
@@ -792,14 +804,23 @@ fun showRecountInfo(dialog: InteractionDialogAPI){
     // it checks if the factionlist doesn't already contain the faction the ship corresponds to, whether it's in the banlist, then checks if it's actually automated and not remnant tagged
     // and if ALL that succeeds, we add the faction to the list to show.
     Global.getSector().allFactions.forEach { fac ->
-        Global.getSettings().getFactionSpec(fac.id).knownShips.forEach {
-            if (!factionlist.contains(fac.id) && !banlist.contains(fac.id) && Global.getSettings().getHullSpec(it).hasTag(Tags.AUTOMATED_RECOVERABLE) && Global.getSettings().getHullSpec(it).manufacturer!="Omega"){
+        Global.getSettings().getFactionSpec(fac.id).knownShips.forEach { hullId ->
+            if (
+                !factionlist.contains(fac.id) &&
+                !banlist.contains(fac.id) &&
+                (
+                        Global.getSettings().getHullSpec(hullId).hasTag(Tags.AUTOMATED_RECOVERABLE) ||
+                                fac.id == "uaf_automata"
+                        ) &&
+                Global.getSettings().getHullSpec(hullId).manufacturer != "Omega"
+            ) {
                 factionlist.add(fac.id)
             }
         }
     }
+
     factionlist.forEach { facid ->
-        val facships = Global.getSettings().getFactionSpec(facid).knownShips.filter { Global.getSettings().getHullSpec(it).hasTag(Tags.AUTOMATED_RECOVERABLE) }
+        val facships = Global.getSettings().getFactionSpec(facid).knownShips.filter { facid == "uaf_automata" || Global.getSettings().getHullSpec(it).hasTag(Tags.AUTOMATED_RECOVERABLE) }
         val remmyships = remmy.knownShips.filter { facships.contains(it) }
         val cent = ((remmyships.size.toFloat() / facships.size.toFloat()) * 100f).roundToInt()
         val facname = Global.getSettings().getFactionSpec(facid).displayName
