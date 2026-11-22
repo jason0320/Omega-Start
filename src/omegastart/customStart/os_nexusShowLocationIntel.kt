@@ -6,13 +6,13 @@ import com.fs.starfarer.api.campaign.SectorEntityToken
 import com.fs.starfarer.api.impl.campaign.intel.BaseIntelPlugin
 import com.fs.starfarer.api.ui.SectorMapAPI
 import com.fs.starfarer.api.ui.TooltipMakerAPI
-import second_in_command.misc.getAndLoadSprite
+//import second_in_command.misc.getAndLoadSprite
 
 class os_nexusShowLocationIntel(var fleet: SectorEntityToken): BaseIntelPlugin() {
 
     override fun getIcon(): String {
         val path = "graphics/factions/crest_ai_remnant.png"
-        Global.getSettings().getAndLoadSprite(path)
+        Global.getSettings().loadTexture(path)
         return path
     }
 
